@@ -3,14 +3,19 @@ const Contact = require('../models/contactModel');
 
 // Get all contacts
 // GET /contacts
-
 const getAllContacts = asyncHandler(async (req, res) => {
     const contacts = await Contact.find();
-    res.render('getAll');
+    res.render('index', { contacts: contacts });
 });
 
+// View add Contact form
+// Get /contacts/add
+const addContactForm = (req, res) => {
+    res.render('add');
+};
+
 // Create contact
-// POST /contacts
+// POST /contacts/add
 const createContact = asyncHandler(async (req, res) => {
     console.log(req.body);
     const { name, email, phone } = req.body;
@@ -70,4 +75,5 @@ module.exports = {
     getContact,
     updateContact,
     deleteContact,
+    addContactForm,
 };
