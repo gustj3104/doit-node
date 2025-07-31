@@ -35,7 +35,7 @@ const createContact = asyncHandler(async (req, res) => {
 // GET /contacts/:id
 const getContact = asyncHandler(async (req, res) => {
     const contact = await Contact.findById(req.params.id);
-    res.send(contact);
+    res.render('update', { contact: contact });
 });
 
 // Update contact
@@ -53,20 +53,16 @@ const updateContact = asyncHandler(async (req, res) => {
 
     contact.save();
 
-    res.json(contact);
+    res.redirect('/contacts');
 });
 
 // Delete contact
 // Delete /contacts/:id
 const deleteContact = asyncHandler(async (req, res) => {
     const id = req.params.id;
-    const contact = await Contact.findById(id);
-    if (!contact) {
-        throw new Error('Contact not found');
-    }
 
-    await Contact.deleteOne({ _id: id });
-    res.send('Deleted');
+    await Contact.findByIdAndDelete(id);
+    res.redirect('/contacts');
 });
 
 module.exports = {
